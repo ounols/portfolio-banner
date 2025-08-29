@@ -1,0 +1,4 @@
+[submodule "CSEngine"]
+	path = CSEngine
+	url = https://github.com/ounols/CSEngine.git
+	branch = feature/editor
