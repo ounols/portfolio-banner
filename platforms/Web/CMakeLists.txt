@@ -42,7 +42,14 @@ file(GLOB CSENGINE_SRC
 #       "../../src/*/*/*/*/*/*/*.*"
         )
 
-include_directories("../../src" "../../CSEngine/src")
+include_directories("../../../src" "../../../CSEngine/src" "../../../src/Manager" "../../../CSEngine/src/Manager")
+
+# Exclude LightMgr files from CSEngine directory to avoid conflicts
+list(REMOVE_ITEM CSENGINE_SRC
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../CSEngine/src/Manager/LightMgr.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../../CSEngine/src/Manager/EngineCoreInstance.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../CSEngine/src/Manager/LightMgr.h"
+)
 
 file(GLOB SQUIRREL_SRC
                         "../../CSEngine/External/Squirrel/lib/sqstdlib/*.*"

@@ -20,7 +20,17 @@ file(GLOB CSENGINE_SRC
 #        "../../../src/*/*/*/*/*/*/*.*"
         )
 
-include_directories("../../../src" "../../../CSEngine/src")
+include_directories("../../../src" "../../../CSEngine/src" "../../../src/Manager" "../../../CSEngine/src/Manager")
+
+# Exclude files from CSEngine directory to avoid conflicts
+list(REMOVE_ITEM CSENGINE_SRC 
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../../CSEngine/src/Manager/LightMgr.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../../CSEngine/src/Manager/EngineCoreInstance.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../../CSEngine/src/Manager/LightMgr.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../../CSEngine/src/Util/Settings.cpp"
+)
+
+
 
 if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
     link_directories(${PROJECT_NAME} "../../../CSEngine/External/glew/lib/Win32")

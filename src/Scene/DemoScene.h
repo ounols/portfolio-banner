@@ -1,0 +1,22 @@
+#pragma once
+#include "Base/Scene.h"
+
+namespace CSE {
+    class SGameObject;
+}
+
+class DemoScene : public CSE::Scene {
+public:
+    DemoScene() = default;
+    ~DemoScene() override = default;
+
+    void Init() override;
+    void Tick(float elapsedTime) override;
+
+    static void TickGameObject(CSE::SGameObject *obj, float elapsedTime);
+
+    void Destroy() override;
+
+private:
+    CSE::SGameObject* m_root = nullptr;
+};
