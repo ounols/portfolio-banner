@@ -47,9 +47,12 @@ include_directories("../../src" "../../CSEngine/src" "../../src/Manager" "../../
 # Exclude LightMgr files from CSEngine directory to avoid conflicts
 list(REMOVE_ITEM CSENGINE_SRC
     "${CMAKE_CURRENT_SOURCE_DIR}/../../CSEngine/src/Manager/LightMgr.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../CSEngine/src/Manager/CameraMgr.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/../../CSEngine/src/Manager/EngineCoreInstance.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/../../CSEngine/src/Manager/LightMgr.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/../../CSEngine/src/Util/Settings.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../CSEngine/src/Component/LightComponent.cpp"
+
 )
 
 file(GLOB SQUIRREL_SRC

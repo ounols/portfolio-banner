@@ -10,6 +10,7 @@
 
 #include <GLFW/glfw3.h>
 #include <emscripten.h>
+#include <emscripten/html5.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
@@ -32,6 +33,48 @@ long long int timeGetTime() {
 long long int elapsedTime = 0;
 GLFWwindow* window = nullptr;
 MainProc* mainProc = nullptr;
+EM_BOOL on_canvassize_changed(int eventType, const EmscriptenUiEvent* uiEvent, void* userData) {
+    printf("Canvas resize event triggered! Event type: %d\n", eventType);
+    if (window && mainProc) {
+        int width, height;
+        glfwGetFramebufferSize(window, &width, &height);
+        printf("New canvas size: %dx%d\n", width, height);
+        mainProc->ResizeWindow(width, height);
+    }
+    return EM_TRUE;
+}
+
+EM_BOOL on_window_resize(int eventType, const EmscriptenUiEvent* uiEvent, void* userData) {
+    printf("Window resize event triggered!\n");
+    if (window && mainProc) {
+        // Get the actual canvas element and check its size
+        double cssWidth, cssHeight;
+        emscripten_get_element_css_size("#canvas", &cssWidth, &cssHeight);
+        printf("CSS canvas size: %.0fx%.0f\n", cssWidth, cssHeight);
+        
+        // Update GLFW window size to match
+        glfwSetWindowSize(window, (int)cssWidth, (int)cssHeight);
+        mainProc->ResizeWindow((int)cssWidth, (int)cssHeight);
+    }
+    return EM_TRUE;
+}
+
+extern "C" {
+    EMSCRIPTEN_KEEPALIVE
+    void resizeCanvas(int width, int height) {
+        if (window && mainProc) {
+            glfwSetWindowSize(window, width, height);
+            mainProc->ResizeWindow(width, height);
+        }
+    }
+    
+    EMSCRIPTEN_KEEPALIVE
+    void getCanvasSize(int* width, int* height) {
+        if (window) {
+            glfwGetFramebufferSize(window, width, height);
+        }
+    }
+}
 
 void mainLoop() {
     auto deltaTime = timeGetTime() - elapsedTime;
@@ -99,6 +142,11 @@ int main(void) {
     mainProc = new MainProc();
     mainProc->Init(width, height);
     elapsedTime = timeGetTime();
+    
+    // Set up resize callbacks
+    emscripten_set_resize_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, nullptr, EM_TRUE, on_window_resize);
+    emscripten_set_resize_callback("#canvas", nullptr, EM_TRUE, on_canvassize_changed);
+    
     /* Loop until the user closes the window */
     emscripten_set_main_loop(&mainLoop, 0, 1);
     SAFE_DELETE(mainProc);

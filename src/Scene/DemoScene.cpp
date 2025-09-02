@@ -12,38 +12,69 @@
 using namespace CSE;
 
 void DemoScene::Init() {
-    SPrefab* stormtrooper = SResource::Create<SPrefab>("lucy.prefab");
+    SPrefab* lucy_prefab = SResource::Create<SPrefab>("lucy.prefab");
 
     m_root = new SGameObject("root");
-    auto ab = stormtrooper->Clone(vec3{ 0, -1.f, -1.f }, m_root);
+    auto object_transform = new SGameObject("Object Transform");
+    object_transform->SetParent(m_root);
+    m_lucy = lucy_prefab->Clone(vec3{0, -1.5f, 0.f}, object_transform);
     //    ab->GetTransform()->m_scale = vec3{ 0.2f, 0.2f, 0.2f };
-    ab->GetTransform()->m_scale = vec3{ 0.01f, 0.01f, 0.01f };
-    // ab->GetTransform()->m_rotation = Quaternion::AngleAxis(vec3{1, 0, 0}, Pi/2.f);
+    m_lucy->GetTransform()->m_scale = vec3{0.013f, 0.013f, 0.013f};
+    object_transform->GetTransform()->m_position = vec3{0.f, 0.f, -1.f};
+    vec3 rotate = vec3{0.1f, 0.3f, 0.1f};
+    rotate.Normalize();
+    object_transform->GetTransform()->m_rotation = Quaternion::AngleAxis(rotate, 1.0f);
 
     auto camera = new SGameObject("camera");
     const auto& camera_comp = camera->CreateComponent<CameraComponent>();
-    camera->GetTransform()->m_position = vec3{0, 0, 1.2f };
+    camera->GetTransform()->m_position = vec3{0, 0, 1.2f};
     camera_comp->SetBackgroundType(CameraBase::SOLID);
-    camera_comp->SetBackgroundColor(vec3 {0, 0, 0});
+    camera_comp->SetBackgroundColor(vec3{0, 0, 0});
 
     SGameObject* direction = new SGameObject();
     direction->SetParent(m_root);
-    direction->SetName("directional");
-    direction->GetTransform()->m_position = vec3{ 0.f, 0.5f, 0.f };
-    direction->CreateComponent<LightComponent>();
-    direction->GetComponent<LightComponent>()->SetLightType(LightComponent::DIRECTIONAL);
-    direction->GetComponent<LightComponent>()->SetDirection(vec4{ 0.0f, 1.0f, 1, 0 });
-    direction->GetComponent<LightComponent>()->SetShadow(true);
+    direction->SetName("Main directional");
+    // direction->GetTransform()->m_position = vec3{ 1.f, 1.f, 0.f };
+    m_mainLight = direction->CreateComponent<LightComponent>();
+    m_mainLight->SetLightType(LightComponent::DIRECTIONAL);
+    vec3 direction_vec = vec3{1.f, 1.f, 0.f};
+    direction_vec.Normalize();
+    m_mainLight->SetDirection(vec4(direction_vec, 1.0f));
+    m_mainLight->SetShadow(true);
+    m_mainLight->SetLightRadius(10.f);
+    m_mainLight->SetColor(vec3{20, 20, 20});
+    m_mainLight->Init();
+
+    SGameObject* direction2 = new SGameObject();
+    direction2->SetParent(m_root);
+    direction2->SetName("Sub directional");
+    // direction->GetTransform()->m_position = vec3{ 1.f, 1.f, 0.f };
+    m_subLight = direction2->CreateComponent<LightComponent>();
+    m_subLight->SetLightType(LightComponent::DIRECTIONAL);
+    m_subLight->SetDirection(vec4(0.5f, -0.5f, 0.f, 1.0f));
+    m_subLight->SetShadow(false);
+    m_subLight->SetLightRadius(10.f);
+    m_subLight->Init();
 }
 
 void DemoScene::Tick(float elapsedTime) {
     TickGameObject(m_root, elapsedTime);
+    float t = elapsedTime * 0.001f;
+    vec3 direction_vec = vec3{cosf(t), sinf(t), -0.9f};
+    direction_vec.Normalize();
+    m_mainLight->SetDirection(vec4(direction_vec, 1.0f));
+    float dot = direction_vec.Dot(vec3{-1.f, 0.5f, 0.f});
+
+    dot = dot * 0.5f + 0.25f;
+    m_subLight->SetColor(vec3{0.9f, 0.9f, 0.92f} * dot);
+
+    m_lucy->GetTransform()->m_rotation = Quaternion::AngleAxis(vec3 {0.f, 1.f, 0.f}, sinf(t * 0.5f) * 0.1f);
 }
 
-void DemoScene::TickGameObject(CSE::SGameObject *obj, float elapsedTime) {
+void DemoScene::TickGameObject(CSE::SGameObject* obj, float elapsedTime) {
     obj->Tick(elapsedTime);
     const auto& children = obj->GetChildren();
-    for (const auto& child : children) {
+    for (const auto& child: children) {
         TickGameObject(child, elapsedTime);
     }
 }

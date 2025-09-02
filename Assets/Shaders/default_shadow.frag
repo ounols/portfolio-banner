@@ -1,4 +1,4 @@
 void main()
 {
-    // gl_FragDepth = gl_FragCoord.z;
+    // Empty - let OpenGL handle depth automatically
 }

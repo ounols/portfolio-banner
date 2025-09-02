@@ -2,6 +2,10 @@
 #include "Base/Scene.h"
 
 namespace CSE {
+    class LightComponent;
+}
+
+namespace CSE {
     class SGameObject;
 }
 
@@ -19,4 +23,7 @@ public:
 
 private:
     CSE::SGameObject* m_root = nullptr;
+    CSE::SGameObject* m_lucy = nullptr;
+    CSE::LightComponent*  m_mainLight = nullptr;
+    CSE::LightComponent*  m_subLight = nullptr;
 };

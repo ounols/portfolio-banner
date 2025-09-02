@@ -7,14 +7,14 @@
 using namespace CSE;
 
 const char* Settings::m_deferredGeometryPassShaderID = "File:Shader/PBR/PBR-Geometry-Pass.shader";
-const char* Settings::m_defaultForwardMaterialID = "File:Materials/DefaultPBR.mat";
+const char* Settings::m_defaultForwardMaterialID = "File:Materials/Default.mat";
 const char* Settings::m_defaultDeferredMaterialID = "File:Materials/Default.mat";
-const char* Settings::m_defaultDeferredProxyMaterialID = "File:Materials/DefaultPBR.mat";
+const char* Settings::m_defaultDeferredProxyMaterialID = "File:Materials/Default.mat";
 const char* Settings::m_defaultMainBufferShaderID = "File:Shader/Main-Buffer.shader";
 const char* Settings::m_defaultBlitBufferShaderID = "File:Shader/Blit-Buffer.shader";
 const int Settings::m_maxLights = 5;
 
-const bool Settings::m_assetsPacked = false;
+const bool Settings::m_assetsPacked = true;
 
 const int Settings::m_maxJoints = 60;
 

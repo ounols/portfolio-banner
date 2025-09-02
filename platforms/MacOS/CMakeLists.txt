@@ -23,18 +23,35 @@ include_directories(${OPENGL_INCLUDE_DIR})
 #target_link_libraries(CSEngine ${GLFW_LIDRARIES})
 
 file(GLOB CSENGINE_SRC
+        "../../CSEngine/src/*.*"
+        "../../CSEngine/src/*/*.*"
+        "../../CSEngine/src/*/*/*.*"
+        "../../CSEngine/src/*/*/*/*.*"
+        "../../CSEngine/src/*/*/*/*/*.*"
+        "../../CSEngine/src/*/*/*/*/*/*.*"
         "../../src/*.*"
         "../../src/*/*.*"
         "../../src/*/*/*.*"
         "../../src/*/*/*/*.*"
         "../../src/*/*/*/*/*.*"
         "../../src/*/*/*/*/*/*.*"
-        #                        "../../src/*/*/*/*/*/*/*.*"
         )
 
+include_directories("../../src" "../../CSEngine/src" "../../src/Manager" "../../CSEngine/src/Manager")
+
+# Exclude LightMgr files from CSEngine directory to avoid conflicts
+list(REMOVE_ITEM CSENGINE_SRC
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../CSEngine/src/Manager/LightMgr.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../CSEngine/src/Manager/CameraMgr.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../CSEngine/src/Manager/EngineCoreInstance.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../CSEngine/src/Manager/LightMgr.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../CSEngine/src/Util/Settings.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../CSEngine/src/Component/LightComponent.cpp"
+)
+
 file(GLOB SQUIRREL_SRC
-        "../../External/Squirrel/lib/sqstdlib/*.*"
-        "../../External/Squirrel/lib/squirrel/*.*")
+        "../../CSEngine/External/Squirrel/lib/sqstdlib/*.*"
+        "../../CSEngine/External/Squirrel/lib/squirrel/*.*")
 
 
 # file(GLOB GL3W_SRC "gl3w/*.c")
@@ -55,7 +72,7 @@ add_executable(CSEngine CSEngine_MacOS.cpp glad/src/glad.c ${CSENGINE_SRC})
 #헤더파일 위치
 include_directories(/usr/include)
 include_directories(/usr/local/include)
-include_directories(../../External/Squirrel/include)
+include_directories(../../CSEngine/External/Squirrel/include)
 include_directories(glad/include)
 include_directories(${GLEW_INCLUDE_DIRS})
 
