@@ -3,8 +3,8 @@ precision highp int;
 
 
 //Uniforms
-//[texture.albedo]//
-uniform sampler2D u_sampler_albedo;
+//[texture]//
+uniform sampler2D u_sampler;
 
 //[vec3.camera]//
 uniform vec3 u_cameraPosition;
@@ -30,7 +30,7 @@ void main(void) {
 		uv.x = 1.0 - uv.x;
 		sdf_time = 0.0;
 	}
-	float sdf = texture(u_sampler_albedo, uv).r;
+	float sdf = texture(u_sampler, uv).b;
 
 	if(sdf < sdf_time) discard;
 	float blurRadius = 0.3;

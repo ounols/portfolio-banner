@@ -14,6 +14,8 @@
 //#include <gl/glut.h>
 #include <GL/glew.h>
 #include <crtdbg.h>
+
+#include "InputMgr.h"
 #include "../../../src/Manager/MainProc.h"
 #include "../../../src/MacroDef.h"
 
@@ -143,6 +145,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	}
 //	tUpdate.join();
 	SAFE_DELETE(mainProc);
+	InputMgr::delInstance();
 
 	return static_cast<int>(msg.wParam);
 }

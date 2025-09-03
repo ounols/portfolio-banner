@@ -3,14 +3,8 @@ precision highp int;
 
 
 //Uniforms
-//[texture.albedo]//
-uniform sampler2D u_sampler_albedo;
-//[mat.texture.albedo]//
-uniform sampler2D u_mat_albedo;
-//[mat.texture.normal]//
-uniform sampler2D u_mat_normal;
-//[texture.ao]//
-uniform sampler2D u_sampler_ao;
+//[texture]//
+uniform sampler2D u_sampler;
 
 //IBL
 //[light.brdf]//
@@ -22,10 +16,6 @@ uniform vec3 u_albedo;
 uniform float u_metallic;
 //[float.roughness]//
 uniform float u_roughness;
-//[float.ao]//
-uniform float u_ao;
-//[FLOAT_IRRADIANCE]//
-uniform vec3 u_irradiance;
 //[vec3.camera]//
 uniform vec3 u_cameraPosition;
 
@@ -49,7 +39,6 @@ uniform vec4 u_lightPosition[MAX_LIGHTS];
 
 //Varying
 in mediump vec3 v_eyespaceNormal;//EyespaceNormal;
-//in lowp vec4 v_fragPosLightSpace[MAX_LIGHTS];
 in mediump vec2 v_textureCoordOut;
 in mediump vec3 v_worldPosition;
 
@@ -84,14 +73,14 @@ float ClampedPow(float X, float Y) {
 
 
 void main(void) {
-
+	lowp vec3 tex = texture(u_sampler, v_textureCoordOut).rgb;
 	vec2 mat_uv = v_textureCoordOut * vec2(20.0, 10.0);
-	float albedo_half = pow(texture(u_sampler_albedo, v_textureCoordOut).r, 3.0);
+	float albedo_half = pow(tex.r, 3.0);
 	lowp vec3 albedo     = vec3(albedo_half, albedo_half, albedo_half);
 	lowp float metallic  = u_metallic;
 	lowp float roughness = u_roughness;
 	lowp float ao        = pow(albedo_half, 1.5);
-	albedo *= texture(u_mat_albedo, mat_uv).rgb * 1.3;
+	albedo *= tex.ggg * 1.3;
 
 //	FragColor = vec4(ao, ao, ao, 1.0);
 //	return;

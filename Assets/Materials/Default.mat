@@ -5,9 +5,7 @@
 <var name="float.roughness" type="float" count="1">0.5</var>
 <var name="vec3.albedo" type="vec3" count="1">1.000000 1.000000 1.000000</var>
 <var name="float.ao" type="float" count="1">1.000000</var>
-<var name="texture.albedo" type="tex" count="1">ZBDhGme5C9KkSCna</var>
-<var name="mat.texture.albedo" type="tex" count="1">bm4WXl1WsEX0mo5e</var>
-<var name="mat.texture.normal" type="tex" count="1">C5r2bbqcAlqdCEvW</var>
+<var name="texture" type="tex" count="1">AJ2tdfLCsXaaZLY0</var>
 
 </shader>
 </CSEMAT>
