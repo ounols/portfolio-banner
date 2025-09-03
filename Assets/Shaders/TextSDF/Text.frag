@@ -25,12 +25,17 @@ void main(void) {
 
 	float normal_scalar = dot(Z, v_eyespaceNormal);
 	vec2 uv = v_textureCoordOut;
+	float sdf_time = 0.41;
 	if(normal_scalar > -0.0002) {
 		uv.x = 1.0 - uv.x;
+		sdf_time = 0.0;
 	}
 	float sdf = texture(u_sampler_albedo, uv).r;
 
-	if(sdf < 0.41) discard;
-	FragColor = ONE;
+	if(sdf < sdf_time) discard;
+	float blurRadius = 0.3;
+	float edge = 0.41 + blurRadius;
+	sdf = pow(smoothstep(0.41 - blurRadius, edge, sdf), 2.0);
+	FragColor = normal_scalar > -0.0002? vec4(sdf, sdf,sdf, 1.0) : ONE;
 
 }

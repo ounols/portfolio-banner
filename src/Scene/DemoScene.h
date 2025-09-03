@@ -1,4 +1,5 @@
 #pragma once
+#include "inputMgr.h"
 #include "Base/Scene.h"
 #include "Util/Quaternion.h"
 
@@ -30,4 +31,10 @@ private:
     CSE::LightComponent*  m_subLight = nullptr;
 
     CSE::Quaternion m_textRotation;
+    InputMgr* m_input = nullptr;
+
+    float m_speed = 0.2f;
+
+    float m_currentX = 0;
+    float m_currentY = 0;
 };

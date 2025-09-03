@@ -5,6 +5,7 @@
 // Nick Haemel
 
 #include "../../src/Manager/MainProc.h"
+#include "../../src/Manager/InputMgr.h"
 #include "../../src/MacroDef.h"
 #define GLFW_INCLUDE_ES3
 
@@ -64,6 +65,7 @@ extern "C" {
     void resizeCanvas(int width, int height) {
         if (window && mainProc) {
             glfwSetWindowSize(window, width, height);
+            InputMgr::SetCanvasSize(width, height);
             mainProc->ResizeWindow(width, height);
         }
     }
@@ -72,6 +74,7 @@ extern "C" {
     void getCanvasSize(int* width, int* height) {
         if (window) {
             glfwGetFramebufferSize(window, width, height);
+            InputMgr::SetCanvasSize(width, height);
         }
     }
 }
@@ -114,8 +117,8 @@ int main(void) {
 //    glfwWindowHint(GLFW_SAMPLES, 4);
 //    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    int width = 600;
-    int height = 250;
+    int width = 700;
+    int height = 700;
 
     /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow(width, height, "CSEngine", NULL, NULL);
@@ -126,6 +129,10 @@ int main(void) {
 
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
+    InputMgr::SetCanvasSize(width, height);
+    glfwSetCursorPosCallback(window, [](GLFWwindow* window, double x, double y) {
+        InputMgr::CursorPositionCallback(x, y);
+    });
 
 //     glewExperimental = GL_TRUE;
 //     GLenum err=glewInit();
@@ -150,6 +157,7 @@ int main(void) {
     /* Loop until the user closes the window */
     emscripten_set_main_loop(&mainLoop, 0, 1);
     SAFE_DELETE(mainProc);
+    InputMgr::delInstance();
     glfwDestroyWindow(window);
     glfwTerminate();
     return 0;

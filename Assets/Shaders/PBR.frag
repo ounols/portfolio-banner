@@ -7,8 +7,6 @@ precision highp int;
 uniform sampler2D u_sampler_albedo;
 //[mat.texture.albedo]//
 uniform sampler2D u_mat_albedo;
-//[mat.texture.roughness]//
-uniform sampler2D u_mat_roughness;
 //[mat.texture.normal]//
 uniform sampler2D u_mat_normal;
 //[texture.ao]//
@@ -91,7 +89,7 @@ void main(void) {
 	float albedo_half = pow(texture(u_sampler_albedo, v_textureCoordOut).r, 3.0);
 	lowp vec3 albedo     = vec3(albedo_half, albedo_half, albedo_half);
 	lowp float metallic  = u_metallic;
-	lowp float roughness = texture(u_mat_roughness, mat_uv).r;
+	lowp float roughness = u_roughness;
 	lowp float ao        = pow(albedo_half, 1.5);
 	albedo *= texture(u_mat_albedo, mat_uv).rgb * 1.3;
 
@@ -275,7 +273,7 @@ float ShadowCalculation(int index, vec4 fragPosLightSpace, vec3 N, vec3 D)
 	// get depth of current fragment from light's perspective
 	float currentDepth = projCoords.z;
 	// calculate bias (based on depth map resolution and slope)
-	float bias = max(0.0005 * (1.0 - dot(N, D)), 0.0001);
+	float bias = max(0.0003 * (1.0 - dot(N, D)), 0.0001);
 	// check whether current frag pos is in shadow
 	// float shadow = currentDepth - bias > closestDepth  ? 1.0 : 0.0;
 	// PCF

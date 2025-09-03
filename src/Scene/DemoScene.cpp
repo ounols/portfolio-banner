@@ -14,6 +14,8 @@
 using namespace CSE;
 
 void DemoScene::Init() {
+    m_input = InputMgr::getInstance();
+
     SPrefab* lucy_prefab = SResource::Create<SPrefab>("lucy.prefab");
     SPrefab* cylinder_prefab = SResource::Create<SPrefab>("cylinder.prefab");
 
@@ -25,7 +27,7 @@ void DemoScene::Init() {
 
     m_text = cylinder_prefab->Clone(vec3{0.f, -0.3f, 0.f}, object_transform);
     RenderComponent* render_comp = nullptr;
-    for (const auto & child: m_text->GetChildren()) {
+    for (const auto& child: m_text->GetChildren()) {
         const auto& render = child->GetComponent<RenderComponent>();
         if (render != nullptr) {
             render_comp = render;
@@ -79,16 +81,27 @@ void DemoScene::Init() {
 void DemoScene::Tick(float elapsedTime) {
     TickGameObject(m_root, elapsedTime);
     float t = elapsedTime * 0.001f;
-    vec3 direction_vec = vec3{cosf(t), sinf(t), -1.5f};
+    vec3 direction_vec = vec3{cosf(t) * 0.5f - 0.5f, sinf(t) * 0.5f + 0.5f, -1.5f};
     direction_vec.Normalize();
     m_mainLight->SetDirection(vec4(direction_vec, 1.0f));
     float dot = fmax(direction_vec.Dot(vec3{-1.f, 0.5f, 0.f}), 0.f);
 
     m_subLight->SetColor(vec3{0.9f, 0.9f, 0.92f} * dot * 4.f);
 
-    m_lucy->GetTransform()->m_rotation = Quaternion::AngleAxis(vec3 {0.f, 1.f, 0.f}, sinf(t * 0.5f) * 0.1f);
-    m_text->GetTransform()->m_rotation = Quaternion::AngleAxis(vec3{0, 0, 1}, t * 0.5f).Multiplied(m_textRotation);
+    m_text->GetTransform()->m_rotation = Quaternion::AngleAxis(vec3{0, 0, 1}, t * 0.1f).Multiplied(m_textRotation);
 
+    if (!m_input->IsMouseFocus()) {
+        m_lucy->GetTransform()->m_rotation = Quaternion::AngleAxis(vec3{0.f, 1.f, 0.f}, sinf(t * 0.5f) * 0.1f);
+    }
+    else {
+        m_currentX += (m_input->GetX() - m_currentX) * m_speed;
+        m_currentY += (m_input->GetY() - m_currentY) * m_speed;
+
+        m_lucy->GetTransform()->m_rotation = m_lucy->GetTransform()->m_rotation.Lerp(
+            0.5f,
+            Quaternion::AngleAxis(vec3{0.f, 1.f, 0.f}, m_input->GetX())
+        );
+    }
 }
 
 void DemoScene::TickGameObject(CSE::SGameObject* obj, float elapsedTime) {
