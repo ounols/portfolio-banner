@@ -55,11 +55,24 @@ EM_BOOL on_window_resize(int eventType, const EmscriptenUiEvent* uiEvent, void* 
         // Get the actual canvas element and check its size
         double cssWidth, cssHeight;
         emscripten_get_element_css_size("#canvas", &cssWidth, &cssHeight);
-        printf("CSS canvas size: %.0fx%.0f\n", cssWidth, cssHeight);
         
         // Update GLFW window size to match
-        glfwSetWindowSize(window, (int)cssWidth, (int)cssHeight);
-        mainProc->ResizeWindow((int)cssWidth, (int)cssHeight);
+        int renderWidth = (int)(cssWidth * RENDER_SCALE);
+        int renderHeight = (int)(cssHeight * RENDER_SCALE);
+
+        printf("CSS canvas size: %dx%d\n", renderWidth, renderHeight);
+
+        glfwSetWindowSize(window, renderWidth, renderHeight);
+        mainProc->ResizeWindow(renderWidth, renderHeight);
+
+        // Apply canvas size with renderWidth and renderHeight
+        char canvasCommand[256];
+        snprintf(canvasCommand, sizeof(canvasCommand), 
+                "document.getElementById('canvas').width=%d; "
+                "document.getElementById('canvas').height=%d;", 
+                renderWidth, renderHeight);
+        emscripten_run_script(canvasCommand);
+        
     }
     return EM_TRUE;
 }
@@ -79,11 +92,11 @@ extern "C" {
     EMSCRIPTEN_KEEPALIVE
     void getCanvasSize(int* width, int* height) {
         if (window) {
-            glfwGetFramebufferSize(window, width, height);
-            // 실제 렌더 크기를 UI 크기로 변환
-            *width = (int)(*width / RENDER_SCALE);
-            *height = (int)(*height / RENDER_SCALE);
-            InputMgr::SetCanvasSize(*width, *height);
+            int renderWidth = (int)(*width * RENDER_SCALE);
+            int renderHeight = (int)(*height * RENDER_SCALE);
+            glfwSetWindowSize(window, renderWidth, renderHeight);
+            InputMgr::SetCanvasSize(*width, *height); // UI는 원래 크기 사용
+            mainProc->ResizeWindow(renderWidth, renderHeight);
         }
     }
 }
@@ -143,6 +156,8 @@ int main(void) {
     // Apply render scale to actual framebuffer size
     int renderWidth = (int)(width * RENDER_SCALE);
     int renderHeight = (int)(height * RENDER_SCALE);
+
+    printf("New canvas size: %dx%d\n", renderWidth, renderHeight);
 
     /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow(renderWidth, renderHeight, "CSEngine", NULL, NULL);

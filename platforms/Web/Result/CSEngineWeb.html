@@ -107,14 +107,14 @@
         };
       };
 
-      // 창 크기 변경시 캔버스 리사이즈
-      function resizeCanvas() {
-        canvasElement.width = window.innerWidth;
-        canvasElement.height = window.innerHeight;
-      }
+      // 창 크기 변경시 캔버스 리사이즈 - C++ 코드에서 처리하므로 비활성화
+      // function resizeCanvas() {
+      //   canvasElement.width = window.innerWidth;
+      //   canvasElement.height = window.innerHeight;
+      // }
 
-      window.addEventListener('resize', resizeCanvas);
-      resizeCanvas();
+      // window.addEventListener('resize', resizeCanvas);
+      // resizeCanvas();
     </script>
     <script async type="text/javascript" src="CSEngineWeb.js"></script>
   </body>
