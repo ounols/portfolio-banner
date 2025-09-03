@@ -1,5 +1,6 @@
 #pragma once
 #include "Base/Scene.h"
+#include "Util/Quaternion.h"
 
 namespace CSE {
     class LightComponent;
@@ -24,6 +25,9 @@ public:
 private:
     CSE::SGameObject* m_root = nullptr;
     CSE::SGameObject* m_lucy = nullptr;
+    CSE::SGameObject* m_text = nullptr;
     CSE::LightComponent*  m_mainLight = nullptr;
     CSE::LightComponent*  m_subLight = nullptr;
+
+    CSE::Quaternion m_textRotation;
 };

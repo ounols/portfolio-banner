@@ -46,6 +46,7 @@ list(REMOVE_ITEM CSENGINE_SRC
         "${CMAKE_CURRENT_SOURCE_DIR}/../../CSEngine/src/Manager/EngineCoreInstance.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../CSEngine/src/Manager/LightMgr.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../CSEngine/src/Util/Settings.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../CSEngine/src/Util/Settings.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../CSEngine/src/Component/LightComponent.cpp"
 )
 

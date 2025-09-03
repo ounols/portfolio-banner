@@ -2,7 +2,7 @@
 // Created by ounol on 2021-08-14.
 //
 
-#include "Util/Settings.h"
+#include "Settings.h"
 
 using namespace CSE;
 

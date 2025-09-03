@@ -62,8 +62,8 @@ const lowp float c_zero = 0.0;
 const lowp float c_one = 1.0;
 const float PI = 3.14159265359;
 
-const lowp float c_shadow_width = 1024.0;
-const lowp float c_shadow_height = 1024.0;
+const lowp float c_shadow_width = 512.0;
+const lowp float c_shadow_height = 512.0;
 
 //Functions
 float DistributionGGX(vec3 N, vec3 H, float roughness);
@@ -275,7 +275,7 @@ float ShadowCalculation(int index, vec4 fragPosLightSpace, vec3 N, vec3 D)
 	// get depth of current fragment from light's perspective
 	float currentDepth = projCoords.z;
 	// calculate bias (based on depth map resolution and slope)
-	float bias = max(0.0001 * (1.0 - dot(N, D)), 0.00005);
+	float bias = max(0.0005 * (1.0 - dot(N, D)), 0.0001);
 	// check whether current frag pos is in shadow
 	// float shadow = currentDepth - bias > closestDepth  ? 1.0 : 0.0;
 	// PCF
