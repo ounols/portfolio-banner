@@ -54,8 +54,8 @@ void LightMgr::Init() {
     // Setting PBS Environment
     m_environmentMgr = new SEnvironmentMgr();
     // m_environmentMgr->RenderPBREnvironment();
-    m_environmentMgr->RenderBRDFLUT();
-    m_environmentMgr->ReleaseRenderingResources();
+    // m_environmentMgr->RenderBRDFLUT();
+    // m_environmentMgr->ReleaseRenderingResources();
 }
 
 void LightMgr::RefreshShadowCount(int shadowCount) const {

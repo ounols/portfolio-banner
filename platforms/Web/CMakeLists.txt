@@ -88,6 +88,12 @@ include_directories(../../CSEngine/External/Squirrel/include)
 target_link_libraries(CSEngineWeb glfw)
 target_link_libraries(CSEngineWeb SquirrelLib)
 
+# Debug build configuration (commented out)
+# set_target_properties(CSEngineWeb
+#         PROPERTIES SUFFIX ".html"
+#         LINK_FLAGS " --bind -s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 -O3 -std=c++14 -s ALLOW_MEMORY_GROWTH=1 -s EXCEPTION_CATCHING_ALLOWED=[..] -s USE_WEBGL2=1 -g4 --preload-file Assets.zip")
+
+# Release build configuration
 set_target_properties(CSEngineWeb
         PROPERTIES SUFFIX ".html"
-        LINK_FLAGS " --bind -s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 -O3 -std=c++14 -s ALLOW_MEMORY_GROWTH=1 -s EXCEPTION_CATCHING_ALLOWED=[..] -s USE_WEBGL2=1 -g4 --preload-file Assets.zip")
+        LINK_FLAGS " --bind -s USE_GLFW=3 -s WASM=1 -Oz -std=c++14 -s ALLOW_MEMORY_GROWTH=1 -s USE_WEBGL2=1 --closure 1 --preload-file Assets.zip -s DISABLE_EXCEPTION_CATCHING=1")

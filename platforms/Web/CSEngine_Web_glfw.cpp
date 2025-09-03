@@ -32,6 +32,9 @@ long long int timeGetTime() {
     return ms_since_epoch;
 }
 long long int elapsedTime = 0;
+const long long int TARGET_FRAME_TIME = 33; // 30 FPS (1000ms / 30 = 33.33ms)
+const float RENDER_SCALE = 0.7f;
+
 GLFWwindow* window = nullptr;
 MainProc* mainProc = nullptr;
 InputMgr* inputMgr = nullptr;
@@ -65,9 +68,11 @@ extern "C" {
     EMSCRIPTEN_KEEPALIVE
     void resizeCanvas(int width, int height) {
         if (window && mainProc) {
-            glfwSetWindowSize(window, width, height);
-            InputMgr::SetCanvasSize(width, height);
-            mainProc->ResizeWindow(width, height);
+            int renderWidth = (int)(width * RENDER_SCALE);
+            int renderHeight = (int)(height * RENDER_SCALE);
+            glfwSetWindowSize(window, renderWidth, renderHeight);
+            InputMgr::SetCanvasSize(width, height); // UI는 원래 크기 사용
+            mainProc->ResizeWindow(renderWidth, renderHeight);
         }
     }
     
@@ -75,22 +80,25 @@ extern "C" {
     void getCanvasSize(int* width, int* height) {
         if (window) {
             glfwGetFramebufferSize(window, width, height);
+            // 실제 렌더 크기를 UI 크기로 변환
+            *width = (int)(*width / RENDER_SCALE);
+            *height = (int)(*height / RENDER_SCALE);
             InputMgr::SetCanvasSize(*width, *height);
         }
     }
 }
 
 void mainLoop() {
-    auto deltaTime = timeGetTime() - elapsedTime;
-    // std::cout << deltaTime <<'\n';
+    // Update elapsed time for consistent frame-based timing
+    elapsedTime += TARGET_FRAME_TIME;
+    
     /* Render here */
     inputMgr->Update();
-    mainProc->Update(deltaTime);
-    mainProc->Render(deltaTime);
+    mainProc->Update(elapsedTime); // Use consistent frame time
+    mainProc->Render(elapsedTime);
 
     /* Swap front and back buffers */
     glfwSwapBuffers(window);
-    // glfwSwapInterval(0);
 
     /* Poll for and process events */
     glfwPollEvents();
@@ -121,11 +129,23 @@ int main(void) {
 //    glfwWindowHint(GLFW_SAMPLES, 4);
 //    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    int width = 700;
-    int height = 700;
+    // Get canvas size from HTML element
+    double cssWidth, cssHeight;
+    emscripten_get_element_css_size("#canvas", &cssWidth, &cssHeight);
+    
+    int width = (int)cssWidth;
+    int height = (int)cssHeight;
+    
+    // Default fallback if canvas size is invalid
+    if (width <= 0) width = 700;
+    if (height <= 0) height = 700;
+    
+    // Apply render scale to actual framebuffer size
+    int renderWidth = (int)(width * RENDER_SCALE);
+    int renderHeight = (int)(height * RENDER_SCALE);
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(width, height, "CSEngine", NULL, NULL);
+    window = glfwCreateWindow(renderWidth, renderHeight, "CSEngine", NULL, NULL);
     if (!window) {
         glfwTerminate();
         return -1;
@@ -133,9 +153,10 @@ int main(void) {
 
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
-    InputMgr::SetCanvasSize(width, height);
+    InputMgr::SetCanvasSize(width, height); // UI는 CSS 크기 사용
     glfwSetCursorPosCallback(window, [](GLFWwindow* window, double x, double y) {
-        InputMgr::CursorPositionCallback(x, y);
+        // 마우스 좌표를 렌더 스케일에 맞게 변환
+        InputMgr::CursorPositionCallback(x / RENDER_SCALE, y / RENDER_SCALE);
     });
 
 //     glewExperimental = GL_TRUE;
@@ -151,8 +172,7 @@ int main(void) {
     printf("GLSL_VERSION : %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 
     mainProc = new MainProc();
-    mainProc->Init(width, height);
-    elapsedTime = timeGetTime();
+    mainProc->Init(renderWidth, renderHeight); // 실제 렌더 크기로 초기화
     inputMgr = InputMgr::getInstance();
     
     // Set up resize callbacks
@@ -160,7 +180,7 @@ int main(void) {
     emscripten_set_resize_callback("#canvas", nullptr, EM_TRUE, on_canvassize_changed);
     
     /* Loop until the user closes the window */
-    emscripten_set_main_loop(&mainLoop, 0, 1);
+    emscripten_set_main_loop(&mainLoop, 30, 1); // Set to 30 FPS
     SAFE_DELETE(mainProc);
     InputMgr::delInstance();
     glfwDestroyWindow(window);
