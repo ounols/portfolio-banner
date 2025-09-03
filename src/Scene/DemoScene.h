@@ -1,5 +1,5 @@
 #pragma once
-#include "inputMgr.h"
+#include "Manager/InputMgr.h"
 #include "Base/Scene.h"
 #include "Util/Quaternion.h"
 
@@ -27,10 +27,12 @@ private:
     CSE::SGameObject* m_root = nullptr;
     CSE::SGameObject* m_lucy = nullptr;
     CSE::SGameObject* m_text = nullptr;
+    CSE::SGameObject* m_tf = nullptr;
     CSE::LightComponent*  m_mainLight = nullptr;
     CSE::LightComponent*  m_subLight = nullptr;
 
     CSE::Quaternion m_textRotation;
+    CSE::Quaternion m_tfRotation;
     InputMgr* m_input = nullptr;
 
     float m_speed = 0.2f;

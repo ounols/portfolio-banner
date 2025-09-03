@@ -5,7 +5,7 @@
 // Nick Haemel
 
 #include "../../src/Manager/MainProc.h"
-#include "../../src/Manager/InputMgr.h"
+#include "Manager/InputMgr.h"
 #include "../../src/MacroDef.h"
 #define GLFW_INCLUDE_ES3
 
@@ -34,6 +34,7 @@ long long int timeGetTime() {
 long long int elapsedTime = 0;
 GLFWwindow* window = nullptr;
 MainProc* mainProc = nullptr;
+InputMgr* inputMgr = nullptr;
 EM_BOOL on_canvassize_changed(int eventType, const EmscriptenUiEvent* uiEvent, void* userData) {
     printf("Canvas resize event triggered! Event type: %d\n", eventType);
     if (window && mainProc) {
@@ -74,7 +75,7 @@ extern "C" {
     void getCanvasSize(int* width, int* height) {
         if (window) {
             glfwGetFramebufferSize(window, width, height);
-            InputMgr::SetCanvasSize(width, height);
+            InputMgr::SetCanvasSize(*width, *height);
         }
     }
 }
@@ -83,6 +84,7 @@ void mainLoop() {
     auto deltaTime = timeGetTime() - elapsedTime;
     // std::cout << deltaTime <<'\n';
     /* Render here */
+    inputMgr->Update();
     mainProc->Update(deltaTime);
     mainProc->Render(deltaTime);
 
@@ -92,6 +94,8 @@ void mainLoop() {
 
     /* Poll for and process events */
     glfwPollEvents();
+
+    inputMgr->LateUpdate();
 }
 
 int main(void) {
@@ -149,6 +153,7 @@ int main(void) {
     mainProc = new MainProc();
     mainProc->Init(width, height);
     elapsedTime = timeGetTime();
+    inputMgr = InputMgr::getInstance();
     
     // Set up resize callbacks
     emscripten_set_resize_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, nullptr, EM_TRUE, on_window_resize);
