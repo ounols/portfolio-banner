@@ -1,8 +1,8 @@
 var $Module$$;
 $Module$$ ||= typeof Module != 'undefined' ? Module : {};
 var $ENVIRONMENT_IS_WEB$$ = "object" == typeof window, $ENVIRONMENT_IS_WORKER$$ = "undefined" != typeof WorkerGlobalScope, $ENVIRONMENT_IS_NODE$$ = "object" == typeof process && process.versions?.node && "renderer" != process.type;
-let $$jscomp$logical$assign$tmpm2109240858$0$$;
-($$jscomp$logical$assign$tmpm2109240858$0$$ = $Module$$).expectedDataFileDownloads ?? ($$jscomp$logical$assign$tmpm2109240858$0$$.expectedDataFileDownloads = 0);
+let $$jscomp$logical$assign$tmp362134484$0$$;
+($$jscomp$logical$assign$tmp362134484$0$$ = $Module$$).expectedDataFileDownloads ?? ($$jscomp$logical$assign$tmp362134484$0$$.expectedDataFileDownloads = 0);
 $Module$$.expectedDataFileDownloads++;
 (() => {
   var $isWasmWorker$$ = "undefined" != typeof ENVIRONMENT_IS_WASM_WORKER && ENVIRONMENT_IS_WASM_WORKER;
@@ -13,8 +13,8 @@ $Module$$.expectedDataFileDownloads++;
         if ($isNode$$) {
           return (await require("fs/promises").readFile($packageData_packageName$$)).buffer;
         }
-        var $$jscomp$logical$assign$tmpm2109240858$1_chunks$$;
-        ($$jscomp$logical$assign$tmpm2109240858$1_chunks$$ = $Module$$).dataFileDownloads ?? ($$jscomp$logical$assign$tmpm2109240858$1_chunks$$.dataFileDownloads = {});
+        var $$jscomp$logical$assign$tmp362134484$1_chunks$$;
+        ($$jscomp$logical$assign$tmp362134484$1_chunks$$ = $Module$$).dataFileDownloads ?? ($$jscomp$logical$assign$tmp362134484$1_chunks$$.dataFileDownloads = {});
         try {
           var $reader_response$jscomp$2$$ = await fetch($packageData_packageName$$);
         } catch ($e$jscomp$7$$) {
@@ -23,7 +23,7 @@ $Module$$.expectedDataFileDownloads++;
         if (!$reader_response$jscomp$2$$.ok) {
           throw Error(`${$reader_response$jscomp$2$$.status}: ${$reader_response$jscomp$2$$.url}`);
         }
-        $$jscomp$logical$assign$tmpm2109240858$1_chunks$$ = [];
+        $$jscomp$logical$assign$tmp362134484$1_chunks$$ = [];
         $packageSize_total$$ = Number($reader_response$jscomp$2$$.headers.get("Content-Length") ?? $packageSize_total$$);
         let $loaded$$ = 0;
         $Module$$.setStatus?.("Downloading data...");
@@ -32,7 +32,7 @@ $Module$$.expectedDataFileDownloads++;
           if ($done$$) {
             break;
           }
-          $$jscomp$logical$assign$tmpm2109240858$1_chunks$$.push($value$jscomp$110$$);
+          $$jscomp$logical$assign$tmp362134484$1_chunks$$.push($value$jscomp$110$$);
           $loaded$$ += $value$jscomp$110$$.length;
           $Module$$.dataFileDownloads[$packageData_packageName$$] = {loaded:$loaded$$, total:$packageSize_total$$};
           let $totalLoaded$$ = 0, $totalSize$$ = 0;
@@ -41,9 +41,9 @@ $Module$$.expectedDataFileDownloads++;
           }
           $Module$$.setStatus?.(`Downloading data... (${$totalLoaded$$}/${$totalSize$$})`);
         }
-        $packageData_packageName$$ = new Uint8Array($$jscomp$logical$assign$tmpm2109240858$1_chunks$$.map($c$$ => $c$$.length).reduce(($a$jscomp$1$$, $b$jscomp$1$$) => $a$jscomp$1$$ + $b$jscomp$1$$, 0));
+        $packageData_packageName$$ = new Uint8Array($$jscomp$logical$assign$tmp362134484$1_chunks$$.map($c$$ => $c$$.length).reduce(($a$jscomp$1$$, $b$jscomp$1$$) => $a$jscomp$1$$ + $b$jscomp$1$$, 0));
         $download_offset$jscomp$67$$ = 0;
-        for (const $chunk$jscomp$14$$ of $$jscomp$logical$assign$tmpm2109240858$1_chunks$$) {
+        for (const $chunk$jscomp$14$$ of $$jscomp$logical$assign$tmp362134484$1_chunks$$) {
           $packageData_packageName$$.set($chunk$jscomp$14$$, $download_offset$jscomp$67$$), $download_offset$jscomp$67$$ += $chunk$jscomp$14$$.length;
         }
         return $packageData_packageName$$.buffer;
@@ -97,8 +97,8 @@ $Module$$.expectedDataFileDownloads++;
       if ($Module$$.calledRun) {
         $runWithFS$$($Module$$);
       } else {
-        let $$jscomp$logical$assign$tmpm2109240858$3$$;
-        (($$jscomp$logical$assign$tmpm2109240858$3$$ = $Module$$).preRun ?? ($$jscomp$logical$assign$tmpm2109240858$3$$.preRun = [])).push($runWithFS$$);
+        let $$jscomp$logical$assign$tmp362134484$3$$;
+        (($$jscomp$logical$assign$tmp362134484$3$$ = $Module$$).preRun ?? ($$jscomp$logical$assign$tmp362134484$3$$.preRun = [])).push($runWithFS$$);
       }
     })({files:[{filename:"/Assets.zip", start:0, end:1448761}], remote_package_size:1448761});
   }
@@ -1437,22 +1437,6 @@ var $EmValType$$ = {name:"emscripten::val", $fromWireType$:$handle$jscomp$15$$ =
 {
   $cString$jscomp$inline_102_target$jscomp$92$$ = 2 < $cString$jscomp$inline_102_target$jscomp$92$$ ? $UTF8ToString$$($cString$jscomp$inline_102_target$jscomp$92$$) : $cString$jscomp$inline_102_target$jscomp$92$$;
   return $specialHTMLTargets$$[$cString$jscomp$inline_102_target$jscomp$92$$] || ("undefined" != typeof document ? document.querySelector($cString$jscomp$inline_102_target$jscomp$92$$) : null);
-}, $handleException$$ = $e$jscomp$33$$ => {
-  $e$jscomp$33$$ instanceof $ExitStatus$$ || "unwind" == $e$jscomp$33$$ || $quit_$$(1, $e$jscomp$33$$);
-}, $_proc_exit$$ = $code$jscomp$7$$ => {
-  $EXITSTATUS$$ = $code$jscomp$7$$;
-  $noExitRuntime$$ || ($Module$$.onExit?.($code$jscomp$7$$), $ABORT$$ = !0);
-  $quit_$$($code$jscomp$7$$, new $ExitStatus$$($code$jscomp$7$$));
-}, $maybeExit$$ = () => {
-  if (!$noExitRuntime$$) {
-    try {
-      var $status$jscomp$inline_104$$ = $EXITSTATUS$$;
-      $EXITSTATUS$$ = $status$jscomp$inline_104$$;
-      $_proc_exit$$($status$jscomp$inline_104$$);
-    } catch ($e$jscomp$34$$) {
-      $handleException$$($e$jscomp$34$$);
-    }
-  }
 }, $_emscripten_set_main_loop_timing$$ = ($mode$jscomp$54$$, $value$jscomp$126$$) => {
   $MainLoop$timingMode$$ = $mode$jscomp$54$$;
   $MainLoop$timingValue$$ = $value$jscomp$126$$;
@@ -1474,12 +1458,12 @@ var $EmValType$$ = {name:"emscripten::val", $fromWireType$:$handle$jscomp$15$$ =
               $event$jscomp$16$$.stopPropagation(), $setImmediates$$.shift()();
             }
           }, !0);
-          $MainLoop$setImmediate$$ = $func$jscomp$9$$ => {
-            $setImmediates$$.push($func$jscomp$9$$);
+          $MainLoop$setImmediate$$ = $func$jscomp$8$$ => {
+            $setImmediates$$.push($func$jscomp$8$$);
             if ($ENVIRONMENT_IS_WORKER$$) {
-              let $$jscomp$logical$assign$tmpm2109240858$7$$;
-              ($$jscomp$logical$assign$tmpm2109240858$7$$ = $Module$$).setImmediates ?? ($$jscomp$logical$assign$tmpm2109240858$7$$.setImmediates = []);
-              $Module$$.setImmediates.push($func$jscomp$9$$);
+              let $$jscomp$logical$assign$tmp362134484$7$$;
+              ($$jscomp$logical$assign$tmp362134484$7$$ = $Module$$).setImmediates ?? ($$jscomp$logical$assign$tmp362134484$7$$.setImmediates = []);
+              $Module$$.setImmediates.push($func$jscomp$8$$);
               postMessage({target:"setimmediate"});
             } else {
               postMessage("setimmediate", "*");
@@ -1494,23 +1478,23 @@ var $EmValType$$ = {name:"emscripten::val", $fromWireType$:$handle$jscomp$15$$ =
       };
     }
   }
-}, $MainLoop$running$$ = !1, $MainLoop$scheduler$$ = null, $MainLoop$currentlyRunningMainloop$$ = 0, $MainLoop$func$$ = null, $MainLoop$arg$$ = 0, $MainLoop$timingMode$$ = 0, $MainLoop$timingValue$$ = 0, $MainLoop$currentFrameNumber$$ = 0, $MainLoop$queue$$ = [], $MainLoop$preMainLoop$$ = [], $MainLoop$postMainLoop$$ = [], $MainLoop$nextRAF$$ = 0;
-function $MainLoop$requestAnimationFrame$$($func$jscomp$13$$) {
-  if ("function" == typeof requestAnimationFrame) {
-    requestAnimationFrame($func$jscomp$13$$);
-  } else {
-    var $now$jscomp$inline_107$$ = Date.now();
-    if (0 === $MainLoop$nextRAF$$) {
-      $MainLoop$nextRAF$$ = $now$jscomp$inline_107$$ + 1000 / 60;
-    } else {
-      for (; $now$jscomp$inline_107$$ + 2 >= $MainLoop$nextRAF$$;) {
-        $MainLoop$nextRAF$$ += 1000 / 60;
-      }
+}, $_proc_exit$$ = $code$jscomp$7$$ => {
+  $EXITSTATUS$$ = $code$jscomp$7$$;
+  $noExitRuntime$$ || ($Module$$.onExit?.($code$jscomp$7$$), $ABORT$$ = !0);
+  $quit_$$($code$jscomp$7$$, new $ExitStatus$$($code$jscomp$7$$));
+}, $handleException$$ = $e$jscomp$32$$ => {
+  $e$jscomp$32$$ instanceof $ExitStatus$$ || "unwind" == $e$jscomp$32$$ || $quit_$$(1, $e$jscomp$32$$);
+}, $maybeExit$$ = () => {
+  if (!$noExitRuntime$$) {
+    try {
+      var $status$jscomp$inline_104$$ = $EXITSTATUS$$;
+      $EXITSTATUS$$ = $status$jscomp$inline_104$$;
+      $_proc_exit$$($status$jscomp$inline_104$$);
+    } catch ($e$jscomp$33$$) {
+      $handleException$$($e$jscomp$33$$);
     }
-    setTimeout($func$jscomp$13$$, Math.max($MainLoop$nextRAF$$ - $now$jscomp$inline_107$$, 0));
   }
-}
-var $MainLoop$$ = {}, $MainLoop$tickStartTime$$, $MainLoop$runner$$, $MainLoop$setImmediate$$, $MainLoop$remainingBlockers$$, $setMainLoop$$ = ($iterFunc$$, $fps$$, $simulateInfiniteLoop$$, $arg$jscomp$12$$, $noSetTiming$$) => {
+}, $setMainLoop$$ = ($iterFunc$$, $fps$$, $simulateInfiniteLoop$$, $arg$jscomp$12$$, $noSetTiming$$) => {
   function $checkIsRunning$$() {
     return $thisMainLoopId$$ < $MainLoop$currentlyRunningMainloop$$ ? ($maybeExit$$(), !1) : !0;
   }
@@ -1521,14 +1505,14 @@ var $MainLoop$$ = {}, $MainLoop$tickStartTime$$, $MainLoop$runner$$, $MainLoop$s
   $MainLoop$runner$$ = function() {
     if (!$ABORT$$) {
       if (0 < $MainLoop$queue$$.length) {
-        var $blocker_message$jscomp$inline_109_pre$jscomp$inline_114$$ = $MainLoop$queue$$.shift();
-        $blocker_message$jscomp$inline_109_pre$jscomp$inline_114$$.$func$($blocker_message$jscomp$inline_109_pre$jscomp$inline_114$$.$arg$);
+        var $blocker_message$jscomp$inline_106_pre$jscomp$inline_111$$ = $MainLoop$queue$$.shift();
+        $blocker_message$jscomp$inline_106_pre$jscomp$inline_111$$.$func$($blocker_message$jscomp$inline_106_pre$jscomp$inline_111$$.$arg$);
         if ($MainLoop$remainingBlockers$$) {
-          var $post$jscomp$inline_115_remaining$jscomp$1_remaining$jscomp$inline_110$$ = $MainLoop$remainingBlockers$$, $expected$jscomp$inline_111_next$jscomp$1$$ = 0 == $post$jscomp$inline_115_remaining$jscomp$1_remaining$jscomp$inline_110$$ % 1 ? $post$jscomp$inline_115_remaining$jscomp$1_remaining$jscomp$inline_110$$ - 1 : Math.floor($post$jscomp$inline_115_remaining$jscomp$1_remaining$jscomp$inline_110$$);
-          $MainLoop$remainingBlockers$$ = $blocker_message$jscomp$inline_109_pre$jscomp$inline_114$$.$counted$ ? $expected$jscomp$inline_111_next$jscomp$1$$ : (8 * $post$jscomp$inline_115_remaining$jscomp$1_remaining$jscomp$inline_110$$ + ($expected$jscomp$inline_111_next$jscomp$1$$ + 0.5)) / 9;
+          var $post$jscomp$inline_112_remaining_remaining$jscomp$inline_107$$ = $MainLoop$remainingBlockers$$, $expected$jscomp$inline_108_next$jscomp$1$$ = 0 == $post$jscomp$inline_112_remaining_remaining$jscomp$inline_107$$ % 1 ? $post$jscomp$inline_112_remaining_remaining$jscomp$inline_107$$ - 1 : Math.floor($post$jscomp$inline_112_remaining_remaining$jscomp$inline_107$$);
+          $MainLoop$remainingBlockers$$ = $blocker_message$jscomp$inline_106_pre$jscomp$inline_111$$.$counted$ ? $expected$jscomp$inline_108_next$jscomp$1$$ : (8 * $post$jscomp$inline_112_remaining_remaining$jscomp$inline_107$$ + ($expected$jscomp$inline_108_next$jscomp$1$$ + 0.5)) / 9;
         }
-        $Module$$.setStatus && ($blocker_message$jscomp$inline_109_pre$jscomp$inline_114$$ = $Module$$.statusMessage || "Please wait...", $post$jscomp$inline_115_remaining$jscomp$1_remaining$jscomp$inline_110$$ = $MainLoop$remainingBlockers$$ ?? 0, $expected$jscomp$inline_111_next$jscomp$1$$ = $MainLoop$$.$expectedBlockers$ ?? 0, $post$jscomp$inline_115_remaining$jscomp$1_remaining$jscomp$inline_110$$ ? $post$jscomp$inline_115_remaining$jscomp$1_remaining$jscomp$inline_110$$ < $expected$jscomp$inline_111_next$jscomp$1$$ ? 
-        $Module$$.setStatus("{message} ({expected - remaining}/{expected})") : $Module$$.setStatus($blocker_message$jscomp$inline_109_pre$jscomp$inline_114$$) : $Module$$.setStatus(""));
+        $Module$$.setStatus && ($blocker_message$jscomp$inline_106_pre$jscomp$inline_111$$ = $Module$$.statusMessage || "Please wait...", $post$jscomp$inline_112_remaining_remaining$jscomp$inline_107$$ = $MainLoop$remainingBlockers$$ ?? 0, $expected$jscomp$inline_108_next$jscomp$1$$ = $MainLoop$$.$expectedBlockers$ ?? 0, $post$jscomp$inline_112_remaining_remaining$jscomp$inline_107$$ ? $post$jscomp$inline_112_remaining_remaining$jscomp$inline_107$$ < $expected$jscomp$inline_108_next$jscomp$1$$ ? 
+        $Module$$.setStatus("{message} ({expected - remaining}/{expected})") : $Module$$.setStatus($blocker_message$jscomp$inline_106_pre$jscomp$inline_111$$) : $Module$$.setStatus(""));
         $checkIsRunning$$() && setTimeout($MainLoop$runner$$, 0);
       } else {
         if ($checkIsRunning$$()) {
@@ -1538,8 +1522,8 @@ var $MainLoop$$ = {}, $MainLoop$tickStartTime$$, $MainLoop$runner$$, $MainLoop$s
             0 == $MainLoop$timingMode$$ && ($MainLoop$tickStartTime$$ = performance.now());
             a: {
               if (!$ABORT$$) {
-                for ($blocker_message$jscomp$inline_109_pre$jscomp$inline_114$$ of $MainLoop$preMainLoop$$) {
-                  if (!1 === $blocker_message$jscomp$inline_109_pre$jscomp$inline_114$$()) {
+                for ($blocker_message$jscomp$inline_106_pre$jscomp$inline_111$$ of $MainLoop$preMainLoop$$) {
+                  if (!1 === $blocker_message$jscomp$inline_106_pre$jscomp$inline_111$$()) {
                     break a;
                   }
                 }
@@ -1550,8 +1534,8 @@ var $MainLoop$$ = {}, $MainLoop$tickStartTime$$, $MainLoop$runner$$, $MainLoop$s
                     $handleException$$($e$jscomp$inline_344$$);
                   }
                 }
-                for ($post$jscomp$inline_115_remaining$jscomp$1_remaining$jscomp$inline_110$$ of $MainLoop$postMainLoop$$) {
-                  $post$jscomp$inline_115_remaining$jscomp$1_remaining$jscomp$inline_110$$();
+                for ($post$jscomp$inline_112_remaining_remaining$jscomp$inline_107$$ of $MainLoop$postMainLoop$$) {
+                  $post$jscomp$inline_112_remaining_remaining$jscomp$inline_107$$();
                 }
               }
             }
@@ -1565,7 +1549,36 @@ var $MainLoop$$ = {}, $MainLoop$tickStartTime$$, $MainLoop$runner$$, $MainLoop$s
   if ($simulateInfiniteLoop$$) {
     throw "unwind";
   }
-}, $wasmTable$$;
+}, $MainLoop$running$$ = !1, $MainLoop$scheduler$$ = null, $MainLoop$currentlyRunningMainloop$$ = 0, $MainLoop$func$$ = null, $MainLoop$arg$$ = 0, $MainLoop$timingMode$$ = 0, $MainLoop$timingValue$$ = 0, $MainLoop$currentFrameNumber$$ = 0, $MainLoop$queue$$ = [], $MainLoop$preMainLoop$$ = [], $MainLoop$postMainLoop$$ = [];
+function $MainLoop$pause$$() {
+  $MainLoop$scheduler$$ = null;
+  $MainLoop$currentlyRunningMainloop$$++;
+}
+function $MainLoop$resume$$() {
+  $MainLoop$currentlyRunningMainloop$$++;
+  var $timingMode$$ = $MainLoop$timingMode$$, $timingValue$$ = $MainLoop$timingValue$$, $func$jscomp$10$$ = $MainLoop$func$$;
+  $MainLoop$func$$ = null;
+  $setMainLoop$$($func$jscomp$10$$, 0, !1, $MainLoop$arg$$, !0);
+  $_emscripten_set_main_loop_timing$$($timingMode$$, $timingValue$$);
+  $MainLoop$scheduler$$();
+}
+var $MainLoop$nextRAF$$ = 0;
+function $MainLoop$requestAnimationFrame$$($func$jscomp$13$$) {
+  if ("function" == typeof requestAnimationFrame) {
+    requestAnimationFrame($func$jscomp$13$$);
+  } else {
+    var $now$jscomp$inline_115$$ = Date.now();
+    if (0 === $MainLoop$nextRAF$$) {
+      $MainLoop$nextRAF$$ = $now$jscomp$inline_115$$ + 1000 / 60;
+    } else {
+      for (; $now$jscomp$inline_115$$ + 2 >= $MainLoop$nextRAF$$;) {
+        $MainLoop$nextRAF$$ += 1000 / 60;
+      }
+    }
+    setTimeout($func$jscomp$13$$, Math.max($MainLoop$nextRAF$$ - $now$jscomp$inline_115$$, 0));
+  }
+}
+var $MainLoop$$ = {}, $MainLoop$tickStartTime$$, $MainLoop$runner$$, $MainLoop$setImmediate$$, $MainLoop$remainingBlockers$$, $wasmTable$$;
 function $JSCompiler_StaticMethods__removeHandler$$($i$jscomp$32$$) {
   var $h$jscomp$9$$ = $JSEvents$$.$eventHandlers$[$i$jscomp$32$$];
   $h$jscomp$9$$.target.removeEventListener($h$jscomp$9$$.$eventTypeString$, $h$jscomp$9$$.$eventListenerFunc$, $h$jscomp$9$$.$useCapture$);
@@ -2499,18 +2512,8 @@ $FS$mkdir$$("/home/web_user");
   }}, "/proc/self/fd");
 })();
 $Module$$.requestAnimationFrame = $MainLoop$requestAnimationFrame$$;
-$Module$$.pauseMainLoop = function() {
-  $MainLoop$scheduler$$ = null;
-  $MainLoop$currentlyRunningMainloop$$++;
-};
-$Module$$.resumeMainLoop = function() {
-  $MainLoop$currentlyRunningMainloop$$++;
-  var $timingMode$$ = $MainLoop$timingMode$$, $timingValue$$ = $MainLoop$timingValue$$, $func$jscomp$10$$ = $MainLoop$func$$;
-  $MainLoop$func$$ = null;
-  $setMainLoop$$($func$jscomp$10$$, 0, !1, $MainLoop$arg$$, !0);
-  $_emscripten_set_main_loop_timing$$($timingMode$$, $timingValue$$);
-  $MainLoop$scheduler$$();
-};
+$Module$$.pauseMainLoop = $MainLoop$pause$$;
+$Module$$.resumeMainLoop = $MainLoop$resume$$;
 $Module$$.preMainLoop && $MainLoop$preMainLoop$$.push($Module$$.preMainLoop);
 $Module$$.postMainLoop && $MainLoop$postMainLoop$$.push($Module$$.postMainLoop);
 for (let $i$jscomp$59$$ = 0; 32 > $i$jscomp$59$$; ++$i$jscomp$59$$) {
@@ -2863,7 +2866,7 @@ $type$jscomp$174$$, $destructor$jscomp$2$$) => {
   $HEAPF64$$[$width$jscomp$30$$ >> 3] = $rect_target$jscomp$93$$.width;
   $HEAPF64$$[$height$jscomp$25$$ >> 3] = $rect_target$jscomp$93$$.height;
   return 0;
-}, emscripten_resize_heap:$requestedSize$$ => {
+}, emscripten_pause_main_loop:() => $MainLoop$pause$$(), emscripten_resize_heap:$requestedSize$$ => {
   var $oldSize$$ = $HEAPU8$$.length;
   $requestedSize$$ >>>= 0;
   if (2147483648 < $requestedSize$$) {
@@ -2877,18 +2880,18 @@ $type$jscomp$174$$, $destructor$jscomp$2$$) => {
       try {
         $wasmMemory$$.grow($overGrownHeapSize_pages$jscomp$inline_193$$);
         $updateMemoryViews$$();
-        var $JSCompiler_inline_result$jscomp$17$$ = 1;
+        var $JSCompiler_inline_result$jscomp$18$$ = 1;
         break a;
       } catch ($e$jscomp$inline_194$$) {
       }
-      $JSCompiler_inline_result$jscomp$17$$ = void 0;
+      $JSCompiler_inline_result$jscomp$18$$ = void 0;
     }
-    if ($JSCompiler_inline_result$jscomp$17$$) {
+    if ($JSCompiler_inline_result$jscomp$18$$) {
       return !0;
     }
   }
   return !1;
-}, emscripten_run_script:$ptr$jscomp$14$$ => {
+}, emscripten_resume_main_loop:() => $MainLoop$resume$$(), emscripten_run_script:$ptr$jscomp$14$$ => {
   eval($UTF8ToString$$($ptr$jscomp$14$$));
 }, emscripten_set_main_loop:($func$jscomp$14_iterFunc$jscomp$1$$, $fps$jscomp$1$$, $simulateInfiniteLoop$jscomp$1$$) => {
   $func$jscomp$14_iterFunc$jscomp$1$$ = $wasmTable$$.get($func$jscomp$14_iterFunc$jscomp$1$$);
@@ -3514,6 +3517,9 @@ $maxLength_numBytesWrittenExclNull$jscomp$1$$, $length$jscomp$53$$, $infoLog$$) 
     $instance$jscomp$1_wasmExports$jscomp$inline_284$$ = $wasmExports$$;
     $Module$$._resizeCanvas = $instance$jscomp$1_wasmExports$jscomp$inline_284$$.resizeCanvas;
     $Module$$._getCanvasSize = $instance$jscomp$1_wasmExports$jscomp$inline_284$$.getCanvasSize;
+    $Module$$._pauseMainLoop = $instance$jscomp$1_wasmExports$jscomp$inline_284$$.pauseMainLoop;
+    $Module$$._resumeMainLoop = $instance$jscomp$1_wasmExports$jscomp$inline_284$$.resumeMainLoop;
+    $Module$$._isMainLoopPaused = $instance$jscomp$1_wasmExports$jscomp$inline_284$$.isMainLoopPaused;
     $Module$$._main = $_main$$ = $instance$jscomp$1_wasmExports$jscomp$inline_284$$.main;
     $_free$$ = $instance$jscomp$1_wasmExports$jscomp$inline_284$$.free;
     $_malloc$$ = $instance$jscomp$1_wasmExports$jscomp$inline_284$$.malloc;

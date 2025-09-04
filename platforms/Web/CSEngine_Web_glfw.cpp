@@ -35,6 +35,9 @@ long long int elapsedTime = 0;
 const long long int TARGET_FRAME_TIME = 33; // 30 FPS (1000ms / 30 = 33.33ms)
 const float RENDER_SCALE = 0.7f;
 
+// Main loop control for pause/resume functionality
+bool isPaused = false;
+
 GLFWwindow* window = nullptr;
 MainProc* mainProc = nullptr;
 InputMgr* inputMgr = nullptr;
@@ -98,6 +101,23 @@ extern "C" {
             InputMgr::SetCanvasSize(*width, *height); // UI는 원래 크기 사용
             mainProc->ResizeWindow(renderWidth, renderHeight);
         }
+    }
+
+    EMSCRIPTEN_KEEPALIVE
+    void pauseMainLoop() {
+        isPaused = true;
+        emscripten_pause_main_loop();
+    }
+
+    EMSCRIPTEN_KEEPALIVE
+    void resumeMainLoop() {
+        isPaused = false;
+        emscripten_resume_main_loop();
+    }
+
+    EMSCRIPTEN_KEEPALIVE
+    bool isMainLoopPaused() {
+        return isPaused;
     }
 }
 
@@ -193,6 +213,28 @@ int main(void) {
     // Set up resize callbacks
     emscripten_set_resize_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, nullptr, EM_TRUE, on_window_resize);
     emscripten_set_resize_callback("#canvas", nullptr, EM_TRUE, on_canvassize_changed);
+    
+    // Set up window message listener for pause/resume control
+    emscripten_run_script(R"(
+        window.addEventListener('message', function(event) {
+            if (event.data.action === 'pause') {
+                Module.pauseMainLoop();
+            } else if (event.data.action === 'resume') {
+                Module.resumeMainLoop();
+            }
+        });
+        
+        // Expose functions to Module for external access
+        Module.pauseMainLoop = function() {
+            Module._pauseMainLoop();
+        };
+        Module.resumeMainLoop = function() {
+            Module._resumeMainLoop();
+        };
+        Module.isMainLoopPaused = function() {
+            return Module._isMainLoopPaused();
+        };
+    )");
     
     /* Loop until the user closes the window */
     emscripten_set_main_loop(&mainLoop, 30, 1); // Set to 30 FPS
