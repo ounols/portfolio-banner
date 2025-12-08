@@ -3,13 +3,17 @@
 #include "ResMgr.h"
 #include "GameObjectMgr.h"
 #include "OGLMgr.h"
+#ifndef CSE_GLOBAL_SCRIPT_DISABLED
 #include "ScriptMgr.h"
+#endif
 #include "CameraMgr.h"
 #include "LightMgr.h"
 #include "Render/RenderMgr.h"
 #include "SceneMgr.h"
 #include "MemoryMgr.h"
 #include "ReflectionMgr.h"
+#include "../Sample/FirstDemoScene.h"
+#include "../Sample/WebDemoScene.h"
 #include "../Util/Loader/SCENE/SSceneLoader.h"
 #include "../Util/AssetsDef.h"
 #include "Scene/DemoScene.h"
@@ -93,12 +97,14 @@ void EngineCoreInstance::GenerateCores() {
     m_lightMgr = new LightMgr();
     m_sceneMgr = new SceneMgr();
     m_memoryMgr = new MemoryMgr();
+#ifndef CSE_GLOBAL_SCRIPT_DISABLED
     m_scriptMgr = new ScriptMgr();
+#endif
 
     m_cores.push_back(m_reflectionMgr);
     m_cores.push_back(m_resMgr);
     m_cores.push_back(m_gameObjectMgr);
-//    m_updateCores.push_back(m_gameObjectMgr);
+    //    m_updateCores.push_back(m_gameObjectMgr);
 
     m_cores.push_back(m_oglMgr);
     m_renderCores.push_back(m_oglMgr);
@@ -110,8 +116,9 @@ void EngineCoreInstance::GenerateCores() {
     m_cores.push_back(m_sceneMgr);
     m_updateCores.push_back(m_sceneMgr);
     m_cores.push_back(m_memoryMgr);
-
+#ifndef CSE_GLOBAL_SCRIPT_DISABLED
     m_cores.push_back(m_scriptMgr);
+#endif
 }
 
 void EngineCoreInstance::ResizeWindow(unsigned int width, unsigned int height) {

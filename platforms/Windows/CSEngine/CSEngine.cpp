@@ -12,18 +12,13 @@
 //#include <gl/GL.h>
 //#include <gl/GLU.h>
 //#include <gl/glut.h>
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <crtdbg.h>
 
 #include "InputMgr.h"
-#include "../../../src/Manager/MainProc.h"
-#include "../../../src/MacroDef.h"
+#include "../../../CSEngine/src/Manager/MainProc.h"
+#include "../../../CSEngine/src/MacroDef.h"
 
-#if !defined(_WIN64) && !defined(MSVC_CMAKE)
-#pragma comment(lib, "../../../External/glew/lib/Win32/glew32.lib")
-#elif defined(_WIN64) && !defined(MSVC_CMAKE)
-#pragma comment(lib, "../../../External/glew/lib/Win64/glew32.lib")
-#endif
 #pragma comment(lib, "opengl32.lib")
 //#pragma comment(lib, "glut32.lib")
 //#pragma comment(lib, "glu32.lib")
@@ -96,8 +91,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	MainProc* mainProc = new MainProc();
 
-	//init GLEW
-	glewInit();
+	//init GLAD
+	gladLoadGL();
 
 	char* GL_version = (char*)glGetString(GL_VERSION);
 	char* GL_vendor = (char*)glGetString(GL_VENDOR);

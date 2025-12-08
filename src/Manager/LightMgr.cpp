@@ -2,6 +2,7 @@
 #include "../Component/RenderComponent.h"
 #include "../Util/GLProgramHandle.h"
 #include "../Util/Render/SEnvironmentMgr.h"
+#include "../OGLDef.h"
 
 using namespace CSE;
 

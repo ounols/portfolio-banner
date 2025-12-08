@@ -4,7 +4,8 @@ set(CMAKE_SYSTEM_VERSION 10.0 CACHE STRING "" FORCE)
 set(CMAKE_CXX_FLAGS "-fexec-charset=CP949")
 set(CMAKE_TRY_COMPILE_TARGET_TYPE "STATIC_LIBRARY")
 
-project(CSEngine CXX)
+project(CSEngine C CXX)
+
 
 if(MSVC)
     add_compile_definitions(MSVC_CMAKE)
